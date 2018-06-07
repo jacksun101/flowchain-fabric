@@ -68,38 +68,38 @@ echo "Starting chaincode in dev mode..."
 cd $GOPATH/src/github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02
 go build
 CORE_CHAINCODE_LOGLEVEL=debug \
-CORE_PEER_ADDRESS=peer0.org1.flowchain.io:7052 \
+CORE_PEER_ADDRESS=peer0.org1.omatico.com:7052 \
 CORE_CHAINCODE_ID_NAME=mycc:1.0 \
 ./chaincode_example02 &
 
 echo "Install chaincode"
-CORE_PEER_ADDRESS=peer0.org1.flowchain.io:7051 \
+CORE_PEER_ADDRESS=peer0.org1.omatico.com:7051 \
 peer chaincode install \
 -n mycc \
 -v 1.0 \
 -p github.com/hyperledger/fabric/examples/chaincode/go/chaincode_example02
 
 echo "Instantiate chaincode"
-CORE_PEER_ADDRESS=peer0.org1.flowchain.io:7051 \
+CORE_PEER_ADDRESS=peer0.org1.omatico.com:7051 \
 peer chaincode instantiate \
 -n mycc \
 -v 1.0 \
 -c '{"Args":["init","a","100","b","200"]}' \
--o orderer.flowchain.io:7050 \
+-o orderer.omatico.com:7050 \
 -C businesschannel
 
 echo "Invoke chaincode..."
-CORE_PEER_ADDRESS=peer0.org1.flowchain.io:7051 \
+CORE_PEER_ADDRESS=peer0.org1.omatico.com:7051 \
 peer chaincode invoke \
 -n mycc \
 -c '{"Args":["invoke","a","b","10"]}' \
--o orderer.flowchain.io:7050 \
+-o orderer.omatico.com:7050 \
 -C businesschannel
 
 echo "Query chaincode..."
-CORE_PEER_ADDRESS=peer0.org1.flowchain.io:7051 \
+CORE_PEER_ADDRESS=peer0.org1.omatico.com:7051 \
 peer chaincode query \
 -n mycc \
 -c '{"Args":["query","a"]}' \
--o orderer.flowchain.io:7050 \
+-o orderer.omatico.com:7050 \
 -C businesschannel

@@ -22,7 +22,7 @@ CC_NAME=flowbotcc
 COUNTER=1
 MAX_RETRY=5
 
-ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/flowchain.io/orderers/orderer.flowchain.io/msp/tlscacerts/tlsca.flowchain.io-cert.pem
+ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/omatico.com/orderers/orderer.omatico.com/msp/tlscacerts/tlsca.omatico.com-cert.pem
 
 verifyResult () {
 	if [ $1 -ne 0 ] ; then
@@ -36,21 +36,21 @@ verifyResult () {
 setGlobals () {
 	if [ $1 -eq 0 -o $1 -eq 1 ] ; then
 		CORE_PEER_LOCALMSPID="Org1MSP"
-		CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.flowchain.io/peers/peer0.org1.flowchain.io/tls/ca.crt
-		CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.flowchain.io/users/Admin@org1.flowchain.io/msp
+		CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.omatico.com/peers/peer0.org1.omatico.com/tls/ca.crt
+		CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.omatico.com/users/Admin@org1.omatico.com/msp
 		if [ $1 -eq 0 ]; then
-			CORE_PEER_ADDRESS=peer0.org1.flowchain.io:7051
+			CORE_PEER_ADDRESS=peer0.org1.omatico.com:7051
 		else
-			CORE_PEER_ADDRESS=peer1.org1.flowchain.io:7051
+			CORE_PEER_ADDRESS=peer1.org1.omatico.com:7051
 		fi
 	else
 		CORE_PEER_LOCALMSPID="Org2MSP"
-		CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.flowchain.io/peers/peer0.org2.flowchain.io/tls/ca.crt
-		CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.flowchain.io/users/Admin@org2.flowchain.io/msp
+		CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.omatico.com/peers/peer0.org2.omatico.com/tls/ca.crt
+		CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.omatico.com/users/Admin@org2.omatico.com/msp
 		if [ $1 -eq 2 ]; then
-			CORE_PEER_ADDRESS=peer0.org2.flowchain.io:7051
+			CORE_PEER_ADDRESS=peer0.org2.omatico.com:7051
 		else
-			CORE_PEER_ADDRESS=peer1.org2.flowchain.io:7051
+			CORE_PEER_ADDRESS=peer1.org2.omatico.com:7051
 		fi
 	fi
 
@@ -61,7 +61,7 @@ checkOSNAvailability() {
 	#Use orderer's MSP for fetching system channel config block
 	CORE_PEER_LOCALMSPID="OrdererMSP"
 	CORE_PEER_TLS_ROOTCERT_FILE=$ORDERER_CA
-	CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/flowchain.io/orderers/orderer.flowchain.io/msp
+	CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/omatico.com/orderers/orderer.omatico.com/msp
 
 	local rc=1
 	local starttime=$(date +%s)
@@ -73,9 +73,9 @@ checkOSNAvailability() {
 		 sleep 3
 		 echo "Attempting to fetch system channel 'testchainid' ...$(($(date +%s)-starttime)) secs"
 		 if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
-			 peer channel fetch 0 -o orderer.flowchain.io:7050 -c "testchainid" >&log.txt
+			 peer channel fetch 0 -o orderer.omatico.com:7050 -c "testchainid" >&log.txt
 		 else
-			 peer channel fetch 0 -o orderer.flowchain.io:7050 -c "testchainid" --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
+			 peer channel fetch 0 -o orderer.omatico.com:7050 -c "testchainid" --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
 		 fi
 		 test $? -eq 0 && VALUE=$(cat log.txt | awk '/Received block/ {print $NF}')
 		 test "$VALUE" = "0" && let rc=0
@@ -93,14 +93,14 @@ channelCreate() {
 	setGlobals 0
 	if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
 		peer channel create \
-			-o orderer.flowchain.io:7050 \
+			-o orderer.omatico.com:7050 \
 			-c $CHANNEL_NAME \
 			-f ./channel-artifacts/channel.tx \
 			--timeout $TIMEOUT \
 			>&log.txt
 	else
 		peer channel create \
-			-o orderer.flowchain.io:7050 \
+			-o orderer.omatico.com:7050 \
 			-c $CHANNEL_NAME \
 			-f ./channel-artifacts/channel.tx \
 			--tls $CORE_PEER_TLS_ENABLED \
@@ -129,9 +129,9 @@ updateAnchorPeers() {
   setGlobals $PEER
 	echo_b "===================== Update Anchor peers for org \"$CORE_PEER_LOCALMSPID\" on \"$CHANNEL_NAME\" ===================== "
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
-		peer channel update -o orderer.flowchain.io:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt
+		peer channel update -o orderer.omatico.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt
 	else
-		peer channel update -o orderer.flowchain.io:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
+		peer channel update -o orderer.omatico.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
 	fi
 	res=$?
 	cat log.txt
@@ -184,7 +184,7 @@ chaincodeInstantiate () {
 	# lets supply it directly as we know it using the "-o" option
 	if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
 		peer chaincode instantiate \
-			-o orderer.flowchain.io:7050 \
+			-o orderer.omatico.com:7050 \
 			-C $CHANNEL_NAME \
 			-n $CC_NAME \
 			-v 1.0 \
@@ -193,7 +193,7 @@ chaincodeInstantiate () {
 			>&log.txt
 	else
 		peer chaincode instantiate \
-			-o orderer.flowchain.io:7050 \
+			-o orderer.omatico.com:7050 \
 			-C $CHANNEL_NAME \
 			-n $CC_NAME \
 			-v 1.0 \
@@ -246,9 +246,9 @@ chaincodeInvoke () {
 	# while 'peer chaincode' command can get the orderer endpoint from the peer (if join was successful),
 	# lets supply it directly as we know it using the "-o" option
 	if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
-		peer chaincode invoke -o orderer.flowchain.io:7050 -C $CHANNEL_NAME -n $CC_NAME -c '{"Args":["invoke","a","b","10"]}' >&log.txt
+		peer chaincode invoke -o orderer.omatico.com:7050 -C $CHANNEL_NAME -n $CC_NAME -c '{"Args":["invoke","a","b","10"]}' >&log.txt
 	else
-		peer chaincode invoke -o orderer.flowchain.io:7050  --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CC_NAME -c '{"Args":["invoke","a","b","10"]}' >&log.txt
+		peer chaincode invoke -o orderer.omatico.com:7050  --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CC_NAME -c '{"Args":["invoke","a","b","10"]}' >&log.txt
 	fi
 	res=$?
 	cat log.txt
@@ -277,7 +277,7 @@ chaincodeStartDev () {
 	VERSION=$2
 	setGlobals $PEER
 	CORE_CHAINCODE_LOGLEVEL=debug \
-	CORE_PEER_ADDRESS=peer${PEER}.org1.flowchain.io:7052 \
+	CORE_PEER_ADDRESS=peer${PEER}.org1.omatico.com:7052 \
 	CORE_CHAINCODE_ID_NAME=mycc:${VERSION} \
 	nohup ./scripts/flowbot02 > chaincode_dev.log &
 	res=$?
@@ -297,9 +297,9 @@ chaincodeUpgrade () {
 	# while 'peer chaincode' command can get the orderer endpoint from the peer (if join was successful),
 	# lets supply it directly as we know it using the "-o" option
 	if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
-		peer chaincode upgrade -o orderer.flowchain.io:7050 -C $CHANNEL_NAME -n $CC_NAME -c '{"Args":["upgrade","a","100","b","200"]}' -v $VERSION >&log.txt
+		peer chaincode upgrade -o orderer.omatico.com:7050 -C $CHANNEL_NAME -n $CC_NAME -c '{"Args":["upgrade","a","100","b","200"]}' -v $VERSION >&log.txt
 	else
-		peer chaincode upgrade -o orderer.flowchain.io:7050  --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CC_NAME -c '{"Args":["upgrade","a","100","b","200"]}' -v $VERSION >&log.txt
+		peer chaincode upgrade -o orderer.omatico.com:7050  --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n $CC_NAME -c '{"Args":["upgrade","a","100","b","200"]}' -v $VERSION >&log.txt
 	fi
 	res=$?
 	cat log.txt
@@ -317,11 +317,11 @@ channelFetch () {
 	# lets supply it directly as we know it using the "-o" option
 	if [ -z "${CORE_PEER_TLS_ENABLED}" -o "${CORE_PEER_TLS_ENABLED}" = "false" ]; then
 		peer channel fetch $BLOCK_NO \
-			-o orderer.flowchain.io:7050 \
+			-o orderer.omatico.com:7050 \
 			-c ${CHANNEL_NAME}  >&log.txt
 	else
 		peer channel fetch $BLOCK_NO block_${BLOCK_NO}.block \
-			-o orderer.flowchain.io:7050 \
+			-o orderer.omatico.com:7050 \
 			-c $CHANNEL_NAME \
 			--tls \
 			--cafile $ORDERER_CA  >&log.txt

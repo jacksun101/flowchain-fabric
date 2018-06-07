@@ -9,45 +9,45 @@
 version: '2.0'
 
 services:
-  ca.org1.flowchain.io:
+  ca.org1.omatico.com:
     extends:
       file: docker-compose-base-e2e.yaml
-      service: ca.org1.flowchain.io
+      service: ca.org1.omatico.com
 
-  ca.org2.flowchain.io:
+  ca.org2.omatico.com:
     extends:
       file: docker-compose-base-e2e.yaml
-      service: ca.org2.flowchain.io
+      service: ca.org2.omatico.com
 
   cli:
     extends:
       file: docker-compose-base-e2e.yaml
       service: cli
 
-  orderer.flowchain.io:  # There  can be multiple orderers
+  orderer.omatico.com:  # There  can be multiple orderers
     extends:
       file: docker-compose-base-e2e.yaml
-      service: orderer.flowchain.io
+      service: orderer.omatico.com
 
-  peer0.org1.flowchain.io:
+  peer0.org1.omatico.com:
     extends:
       file: docker-compose-base-e2e.yaml
-      service: peer0.org1.flowchain.io
+      service: peer0.org1.omatico.com
 
-  peer1.org1.flowchain.io:
+  peer1.org1.omatico.com:
     extends:
       file: docker-compose-base-e2e.yaml
-      service: peer1.org1.flowchain.io
+      service: peer1.org1.omatico.com
 
-  peer0.org2.flowchain.io:
+  peer0.org2.omatico.com:
     extends:
       file: docker-compose-base-e2e.yaml
-      service: peer0.org2.flowchain.io
+      service: peer0.org2.omatico.com
 
-  peer1.org2.flowchain.io:
+  peer1.org2.omatico.com:
     extends:
       file: docker-compose-base-e2e.yaml
-      service: peer1.org2.flowchain.io
+      service: peer1.org2.omatico.com
 
 #networks:
 #  default:

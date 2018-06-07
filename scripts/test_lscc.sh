@@ -14,7 +14,7 @@ else
  alias echo_b="echo"
 fi
 
-ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/flowchain.io/orderers/orderer.flowchain.io/msp/tlscacerts/tlsca.flowchain.io-cert.pem
+ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/omatico.com/orderers/orderer.omatico.com/msp/tlscacerts/tlsca.omatico.com-cert.pem
 
 CHANNEL_NAME="$1"
 : ${CHANNEL_NAME:="businesschannel"}
@@ -22,7 +22,7 @@ CHANNEL_NAME="$1"
 echo_b "LSCC testing"
 
 # invoke required following params
-	#-o orderer.flowchain.io:7050 \
+	#-o orderer.omatico.com:7050 \
 	#--tls "true" \
 	#--cafile ${ORDERER_CA} \
 

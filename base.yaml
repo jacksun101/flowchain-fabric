@@ -88,7 +88,7 @@ services:
       - CORE_LOGGING_LEVEL=DEBUG
       - CORE_LOGGING_FORMAT=%{color}[%{id:03x} %{time:01-02 15:04:05.00 MST}] [%{longpkg}] %{callpath} -> %{level:.4s}%{color:reset} %{message}
       - CORE_PEER_TLS_ENABLED=true  # to enable TLS, change to true
-      - ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/flowchain.io/orderers/orderer.flowchain.io/msp/tlscacerts/tlsca.flowchain.io-cert.pem
+      - ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/omatico.com/orderers/orderer.omatico.com/msp/tlscacerts/tlsca.omatico.com-cert.pem
       - CHANNEL_NAME:="businesschannel"
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: bash -c 'cd /tmp; source scripts/func.sh; while true; do sleep 20170504; done'
@@ -102,7 +102,7 @@ services:
       - CORE_LOGGING_LEVEL=DEBUG
       - CORE_PEER_TLS_ENABLED=false  # event-listener doesn't support TLS
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
-    #command: bash -c 'block-listener -events-address=peer0.org1.flowchain.io:7053 -events-mspdir=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.flowchain.io/peers/peer0.org1.flowchain.io/msp/ -events-mspid=Org1MSP'
+    #command: bash -c 'block-listener -events-address=peer0.org1.omatico.com:7053 -events-mspdir=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.omatico.com/peers/peer0.org1.omatico.com/msp/ -events-mspid=Org1MSP'
     command: bash -c 'while true; do sleep 20170504; done'
 
   couchdb-base:

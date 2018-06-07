@@ -101,10 +101,10 @@ cli: # enter the cli container
 	docker exec -it fabric-cli bash
 
 peer: # enter the peer container
-	docker exec -it peer0.org1.flowchain.io bash
+	docker exec -it peer0.org1.omatico.com bash
 
 dev_compile: # rebuild the peer
-	docker exec -it peer0.org1.flowchain.io bash /tmp/peer_build.sh
+	docker exec -it peer0.org1.omatico.com bash /tmp/peer_build.sh
 
 ps: # show existing docker images
 	docker ps -a
@@ -115,8 +115,8 @@ logs: # show logs
 logs_check: logs_save logs_view
 
 logs_save: # save logs
-	docker logs peer0.org1.flowchain.io >& /tmp/dev_peer.log
-	docker logs orderer.flowchain.io >& /tmp/dev_orderer.log
+	docker logs peer0.org1.omatico.com >& /tmp/dev_peer.log
+	docker logs orderer.omatico.com >& /tmp/dev_orderer.log
 
 logs_view: # view logs
 	less /tmp/dev_peer.log
